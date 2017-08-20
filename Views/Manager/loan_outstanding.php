@@ -61,8 +61,9 @@ error_reporting(0);
   WHERE Status='active' GROUP BY loan.CustomerID ") or die(mysql_error()); */
 
 
-$sqldata = mysql_query("SELECT loan.*, customer.CustomerName FROM loan
+$sqldata = mysql_query("SELECT loan.*, customer.CustomerName, loan.Frequency FROM loan
                       INNER JOIN customer ON customer.CustomerID=loan.CustomerID 
+		      INNER JOIN loantype ON loantype.LoanTypeid = loan.LoanTypeid
                       WHERE Status='active' and loan.BranchId='" . $_SESSION['branch_id'] . "' ") or die(mysql_error());
 ?><br>
                                         <table class="table table-responsive table-striped table-hover">
@@ -83,8 +84,18 @@ while ($row = mysql_fetch_array($sqldata)) {
 
     $date = date('d-m-Y', strtotime($row['FirstInstallmentDate']));
 
+    $freqAdd = null;
+
+    if($row['Frequency'] == 'MONTHLY'){
+	$freqAdd = "months";
+    }else if($row['Frequency'] == 'WEEKLY'){
+	         $freqAdd = "week";
+    }else if($row['Frequency'] == 'DAILY'){
+	    $freqAdd = "day";
+    }
+
     $m = $row['Durationinmonth'];
-    $maturitydate = date('d-m-Y', strtotime($date . "+$m months"));
+    $maturitydate = date('d-m-Y', strtotime($date . "+$m {$freqAdd}"));
 
     echo "<tr>";
     echo "<td>" . $row['CustomerID'] . "</td>"

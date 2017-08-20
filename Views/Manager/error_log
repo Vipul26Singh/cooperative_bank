@@ -176,3 +176,15 @@
 [20-Aug-2017 19:18:38 Etc/GMT] PHP Notice:  Undefined variable: principalSum1 in /home/minbazu5/public_html/peopledevelopment.in/coopbank/Views/Manager/loanReport.php on line 385
 [20-Aug-2017 19:18:38 Etc/GMT] PHP Notice:  Undefined variable: emiSum1 in /home/minbazu5/public_html/peopledevelopment.in/coopbank/Views/Manager/loanReport.php on line 386
 [20-Aug-2017 19:18:38 Etc/GMT] PHP Notice:  Undefined variable: intrestamountSum1 in /home/minbazu5/public_html/peopledevelopment.in/coopbank/Views/Manager/loanReport.php on line 387
+[20-Aug-2017 19:28:16 Etc/GMT] PHP Notice:  Undefined variable: principalSum1 in /home/minbazu5/public_html/peopledevelopment.in/coopbank/Views/Manager/loanReport.php on line 384
+[20-Aug-2017 19:28:16 Etc/GMT] PHP Notice:  Undefined variable: emiSum1 in /home/minbazu5/public_html/peopledevelopment.in/coopbank/Views/Manager/loanReport.php on line 385
+[20-Aug-2017 19:28:16 Etc/GMT] PHP Notice:  Undefined variable: intrestamountSum1 in /home/minbazu5/public_html/peopledevelopment.in/coopbank/Views/Manager/loanReport.php on line 386
+[20-Aug-2017 19:30:11 Etc/GMT] PHP Notice:  Undefined variable: principalSum1 in /home/minbazu5/public_html/peopledevelopment.in/coopbank/Views/Manager/loanReport.php on line 384
+[20-Aug-2017 19:30:11 Etc/GMT] PHP Notice:  Undefined variable: emiSum1 in /home/minbazu5/public_html/peopledevelopment.in/coopbank/Views/Manager/loanReport.php on line 385
+[20-Aug-2017 19:30:11 Etc/GMT] PHP Notice:  Undefined variable: intrestamountSum1 in /home/minbazu5/public_html/peopledevelopment.in/coopbank/Views/Manager/loanReport.php on line 386
+[20-Aug-2017 21:37:50 Etc/GMT] PHP Notice:  Undefined variable: principalSum1 in /home/minbazu5/public_html/peopledevelopment.in/coopbank/Views/Manager/loanReport.php on line 384
+[20-Aug-2017 21:37:50 Etc/GMT] PHP Notice:  Undefined variable: emiSum1 in /home/minbazu5/public_html/peopledevelopment.in/coopbank/Views/Manager/loanReport.php on line 385
+[20-Aug-2017 21:37:50 Etc/GMT] PHP Notice:  Undefined variable: intrestamountSum1 in /home/minbazu5/public_html/peopledevelopment.in/coopbank/Views/Manager/loanReport.php on line 386
+[20-Aug-2017 22:26:09 Etc/GMT] PHP Notice:  Undefined variable: principalSum1 in /home/minbazu5/public_html/peopledevelopment.in/coopbank/Views/Manager/loanReport.php on line 384
+[20-Aug-2017 22:26:09 Etc/GMT] PHP Notice:  Undefined variable: emiSum1 in /home/minbazu5/public_html/peopledevelopment.in/coopbank/Views/Manager/loanReport.php on line 385
+[20-Aug-2017 22:26:09 Etc/GMT] PHP Notice:  Undefined variable: intrestamountSum1 in /home/minbazu5/public_html/peopledevelopment.in/coopbank/Views/Manager/loanReport.php on line 386

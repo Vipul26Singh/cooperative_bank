@@ -7,17 +7,30 @@ $sqlaccount = mysql_fetch_array(mysql_query("SELECT * from loan l
 $currentdate = date("Y-m-d");
 
 if ($sqlaccount > 0) {
+    $laonTypeDetail = mysql_fetch_array(mysql_query("SELECT * from loantype  where  LoanTypeid='" . $sqlaccount['LoanTypeid'] . "' "));
+
     $sqlloanTransaction = mysql_fetch_array(mysql_query("SELECT * from  loantransaction  where  LoanNumber='" . $_POST['val'] . "' ORDER BY LoanNumber DESC "));
 
     $sqlloanTransaction2 = mysql_fetch_array(mysql_query("SELECT max(LoanTransactionId) as maxid from  loantransaction  where  LoanNumber='" . $_POST['val'] . "' ORDER BY LoanNumber DESC "));
 
     $sqlloanTransaction123 = mysql_fetch_array(mysql_query("SELECT installment_date,Amount,DepositDate from  loantransaction  where  LoanTransactionId='" . $sqlloanTransaction2['maxid'] . "' ORDER BY LoanNumber DESC "));
 
+    $freq = $laonTypeDetail['Frequency'];
+    $freqAdd = null;
+    if($freq == 'MONTHLY'){
+	    $freqAdd = "months";
+    }else if($freq == 'WEEKLY'){ 
+	    $freqAdd = "week";
+    }else if($freq == 'DAILY'){
+	    $freqAdd = "day";
+    }
+
+
 
     if ($sqlloanTransaction == '') {
-        $InstallmentDate = $sqlaccount['FirstInstallmentDate'];
+	    $InstallmentDate = $sqlaccount['FirstInstallmentDate'];
     } else {
-        $InstallmentDate = date('Y-m-d', strtotime($sqlloanTransaction123['installment_date'] . "+1 months"));
+	    $InstallmentDate = date('Y-m-d', strtotime($sqlloanTransaction123['installment_date'] . "+1 {$freqAdd}"));
     }
 
     $installDay = date('d', strtotime($InstallmentDate));
@@ -27,46 +40,27 @@ if ($sqlaccount > 0) {
     $start = date('Y-m-d', strtotime($sqlaccount['DisburseDate']));
     $end = date('Y-m-d', strtotime($sqlaccount['FirstInstallmentDate']));
 
-    /* ----Same date insttallment pay functionality start--- */
-    if ($installDay == $currentDay) {
-        if ($sqlloanTransaction == '') {
-            if ($currentdate > $InstallmentDate) {
-                $data = round(abs(strtotime($start) - strtotime($currentdate)) / 86400);
-            } else {
-                $data = round(abs(strtotime($start) - strtotime($end)) / 86400);
-            }
-        } else {
-
-            $nextday = date('Y-m-d', strtotime($InstallmentDate . "+1 months"));
-
-            if ($currentdate > $InstallmentDate) {
-                $data = round(abs(strtotime($InstallmentDate) - strtotime($currentdate)) / 86400);
-            } else {
-                $data = round(abs(strtotime($installDay) - strtotime($currentDay)) / 86400);
-            }
-        }
-    }
-
-    /* ----Same date insttallment pay functionality end--- */
 
 
-    /* ---- insttallment date greter than current date functionality start--- */ else if ($currentdate < $InstallmentDate) {
-        if ($sqlloanTransaction == '') {
-            $data = round(abs(strtotime($start) - strtotime($currentdate)) / 86400);
-        } else {
-            $data = round(abs(strtotime($InstallmentDate) - strtotime($InstallmentDate)) / 86400);
-        }
+    /* ---- insttallment date greter than current date functionality start--- */ 
+    if ($currentdate < $InstallmentDate) {
+	    if ($sqlloanTransaction == '') {
+		    $data = round(abs(strtotime($start) - strtotime($InstallmentDate)) / 86400);
+	    } else {
+		    $data = round(abs(strtotime($InstallmentDate) - strtotime($InstallmentDate)) / 86400);
+	    }
     }
 
     /* ---- Insttallment date greter than current date functionality end-- */
 
 
-    /* ---- Current date greter than  insttallment date functionality start-- */ else {
+    /* ---- Current date greter than  insttallment date functionality start-- */ 
+    else {
 
-        if ($sqlloanTransaction == '') {
+	    if ($sqlloanTransaction == '') {
             $data = round(abs(strtotime($start) - strtotime($currentdate)) / 86400);
         } else {
-            $nextday = date('Y-m-d', strtotime($InstallmentDate . "+1 months"));
+            $nextday = date('Y-m-d', strtotime($InstallmentDate . "+1 {$freqAdd}"));
             $data = round(abs(strtotime($InstallmentDate) - strtotime($currentdate)) / 86400);
         }
     }
@@ -80,9 +74,9 @@ if ($sqlaccount > 0) {
         $outstanding = $sqlaccount['Balance'];
 
         if ($data == 0) {
-            $nextday = date('Y-m-d', strtotime($InstallmentDate . "+1 months"));
+            $nextday = date('Y-m-d', strtotime($InstallmentDate . "+1 {$freqAdd}"));
             if ($sqlloanTransaction == '') {
-                $days = round(abs(strtotime($start) - strtotime($currentdate)) / 86400);
+                $days = $data;
             } else {
 
                 if ($currentdate > $InstallmentDate) {
@@ -90,7 +84,7 @@ if ($sqlaccount > 0) {
                 } else {
 
                     if ($sqlloanTransaction123['installment_date'] == '') {
-                        $lastinsttalment = $InstallmentDate;
+                        $lastinsttalment = $start;
                     } else {
                         $lastinsttalment = $sqlloanTransaction123['installment_date'];
                     }
@@ -99,9 +93,9 @@ if ($sqlaccount > 0) {
                 }
             }
         } else {
-            $nextday = date('Y-m-d', strtotime($InstallmentDate . "+1 months"));
+            $nextday = date('Y-m-d', strtotime($InstallmentDate . "+1 {$freqAdd}"));
             if ($sqlloanTransaction == '') {
-                $days = round(abs(strtotime($start) - strtotime($currentdate)) / 86400);
+                $days = $data;
             } else {
                 $days = round(abs(strtotime($InstallmentDate) - strtotime($nextday)) / 86400) + $data;
             }
@@ -122,10 +116,10 @@ if ($sqlaccount > 0) {
 
         $outprincipal = $sqlaccount['Balance'];
         if ($data == 0) {
-            $nextday = date('Y-m-d', strtotime($InstallmentDate . "+1 months"));
+            $nextday = date('Y-m-d', strtotime($InstallmentDate . "+1 {$freqAdd}"));
 
             if ($sqlloanTransaction == '') {
-                $days = round(abs(strtotime($start) - strtotime($currentdate)) / 86400);
+                $days = $data;
             } else {
 
                 if ($currentdate > $InstallmentDate) {
@@ -133,7 +127,7 @@ if ($sqlaccount > 0) {
                 } else {
 
                     if ($sqlloanTransaction123['installment_date'] == '') {
-                        $lastinsttalment = $InstallmentDate;
+                        $lastinsttalment = $start;
                     } else {
                         $lastinsttalment = $sqlloanTransaction123['installment_date'];
                     }
@@ -141,9 +135,9 @@ if ($sqlaccount > 0) {
                 }
             }
         } else {
-            $nextday = date('Y-m-d', strtotime($InstallmentDate . "+1 months"));
+            $nextday = date('Y-m-d', strtotime($InstallmentDate . "+1 {$freqAdd}"));
             if ($sqlloanTransaction == '') {
-                $days = round(abs(strtotime($start) - strtotime($currentdate)) / 86400);
+                $days = $data;
             } else {
                 $days = round(abs(strtotime($InstallmentDate) - strtotime($nextday)) / 86400) + $data;
             }
@@ -385,7 +379,7 @@ if ($sqlaccount > 0) {
                         <div class="form-group">
         <?php
         $duration = $sqlaccount['Durationinmonth'];
-        $lastInstallmentDate = date('Y-m-d', strtotime($sqlaccount['FirstInstallmentDate'] . "+$duration months"));
+        $lastInstallmentDate = date('Y-m-d', strtotime($sqlaccount['FirstInstallmentDate'] . "+$duration {$freqAdd}"));
 
         if ($lastInstallmentDate == $currentdate) {
             ?>

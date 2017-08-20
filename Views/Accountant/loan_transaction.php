@@ -122,7 +122,7 @@ if (isset($_POST['submit'])) {
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <select class="form-control"   name="Transactionmode"  required >
+                                        <select class="form-control"   name="Transactionmodee"  required >
                                             <option value="0">Select Transaction Type </option>
                                             <option value="cash">Cash</option>
                                             <option value="cheque">Cheque</option>
