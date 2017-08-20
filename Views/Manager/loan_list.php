@@ -39,6 +39,7 @@ error_reporting(0);
                                             <tr>  
                                                 <th>CustomerID</th>
                                                 <th>Customer Name</th>
+						<th>Loan Id</th>
                                                 <th>LoanDate</th>
                                                 <th>Loan Amount</th>
                                                 <th>Loan Type</th>
@@ -52,6 +53,7 @@ error_reporting(0);
                                             echo "<tr>";
                                             echo "<td>" . $row['CustomerID'] . "</td>"
                                             . "<td>" . $selectdata['CustomerName'] . "</td>"
+					    . "<td>" . $row['LoanId'] . "</td>"
                                             . "<td>" . date('d-m-Y', strtotime($row['LoanDate'])) . "</td>"
                                             . "<td>" . $row['Amount'] . "</td>"
                                             . "<td>" . $row['Type'] . "</td>"

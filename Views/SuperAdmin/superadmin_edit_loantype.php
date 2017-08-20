@@ -10,8 +10,9 @@ if (isset($_REQUEST['submit'])) {
     $g_durn = $_POST['duratn'];
 
     $g_status = $_POST['status'];
+    $g_frequency = $_POST['frequency'];
 
-    $sql1 = mysql_query("UPDATE `loantype` SET `Type`='" . $g_name . "',`Description`='" . $g_desp . "',`InterestRate`='" . $g_rate . "',`Durationinmonth`='" . $g_durn . "', `Active`='" . $g_status . "',`ModifiedBy`='" . $login_session_id . "',`ModifiedDate`=CURTIME() WHERE LoanTypeid ='" . $cid . "' ") or die(mysql_error());
+    $sql1 = mysql_query("UPDATE `loantype` SET `Frequency`='" . $g_frequency . "',`Type`='" . $g_name . "',`Description`='" . $g_desp . "',`InterestRate`='" . $g_rate . "',`Durationinmonth`='" . $g_durn . "', `Active`='" . $g_status . "',`ModifiedBy`='" . $login_session_id . "',`ModifiedDate`=CURTIME() WHERE LoanTypeid ='" . $cid . "' ") or die(mysql_error());
     if ($sql1) {
         //echo "Successfully Updated";
         header("location: loantype_list.php");
@@ -84,7 +85,7 @@ if (isset($_GET['id'])) {
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <label>Durationinmonth</label>
+                                                <label>Duration</label>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -116,6 +117,24 @@ if (isset($_GET['id'])) {
                                                 </select>
                                             </div>
                                         </div>
+
+					<div class="col-md-2">
+						<div class="form-group">
+							<label>Frequency</label>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-group">
+							<select class="form-control" name="frequency" style="width: 100%;" >
+								<option  value='DAILY' <?php if($row['Frequency'] == 'DAILY') echo 'selected'; ?> >DAILY</option>
+								<option  value='WEEKLY' <?php if($row['Frequency'] == 'WEEKLY') echo 'selected'; ?> >WEEKLY</option>
+								<option  value='MONTHLY' <?php if($row['Frequency'] == 'MONTHLY') echo 'selected'; ?> >MONTHLY</option>
+							</select>
+						</div>
+					</div>
+
+
                                     </div>
                                     <div class="box-footer text-center">
                                         <input type="submit" name="submit" class="btn btn-primary" value="Update">

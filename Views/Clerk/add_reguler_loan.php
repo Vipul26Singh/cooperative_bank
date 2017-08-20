@@ -13,6 +13,7 @@ if (isset($_POST['submit'])) {
                       			LoanPurpose='" . $_POST['LoanPurpose'] . "',
                       			Gaurantor1Id='" . $_POST['Gaurantor1Id'] . "',
                       			Gaurantor2Id='" . $_POST['Gaurantor2Id'] . "',
+					Frequency='" . $_POST['frequency'] . "',
                       			Approval='pending',
                       			LoanStatus='pending',
             		                BranchId ='" . $_SESSION['branch_id'] . "',
@@ -111,34 +112,52 @@ if (isset($_POST['submit'])) {
                                         <input type="text" class="form-control" required="" name="AppliedAmount" id="AppliedAmount">
                                     </div>
                                 </div>
+
+				<div class="col-md-2">
+					<div class="form-group">
+						<label>Frequency<span style="color:red;">*</span></label>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<select class="form-control" name="frequency" style="width: 100%;" >
+							<option  value='DAILY'>DAILY</option>
+							<option  value='WEEKLY'>WEEKLY</option>
+							<option  value='MONTHLY' selected>MONTHLY</option>
+						</select>
+					</div>
+				</div>
+						
+
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label>Gaurantor1 ID<span style="color:red;">*</span></label>
+                                        <label>Duration<span style="color:red;">*</span></label>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="Gaurantor1Id" id="Gaurantor1Id" onblur="verifedgaurantor(this.value);" id="gaurantor1" required="">
+                                        <input type="text" class="form-control" name="ForDurationinMonth" id="ForDurationinMonth" required>
                                     </div>
                                 </div>
+
+				<div class="col-md-2">
+					<div class="form-group">
+						<label>Gaurantor1 ID</label>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<input type="text" class="form-control" name="Gaurantor1Id" id="Gaurantor1Id" onblur="verifedgaurantor(this.value);" id="gaurantor1" >
+					</div>
+				</div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label>Duration In Month<span style="color:red;">*</span></label>
+                                        <label>Gaurantor2 ID</label>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="ForDurationinMonth" id="ForDurationinMonth">
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Gaurantor2 ID<span style="color:red;">*</span></label>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control"  name="Gaurantor2Id" id="Gaurantor2Id" onblur="verifedgaurantor2(this.value);" required="" >
+                                        <input type="text" class="form-control"  name="Gaurantor2Id" id="Gaurantor2Id" onblur="verifedgaurantor2(this.value);"  >
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -148,7 +167,7 @@ if (isset($_POST['submit'])) {
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="Gaurantor1name" id="Gaurantor1name" readonly="true" required="" >
+                                        <input type="text" class="form-control" name="Gaurantor1name" id="Gaurantor1name" readonly="true" >
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -168,7 +187,7 @@ if (isset($_POST['submit'])) {
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" readonly="true" name="Gaurantor2name" id="Gaurantor2name" required="" >
+                                        <input type="text" class="form-control" readonly="true" name="Gaurantor2name" id="Gaurantor2name" >
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -178,7 +197,7 @@ if (isset($_POST['submit'])) {
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="Remark" id="Remark" required>
+                                        <input type="text" class="form-control" name="Remark" id="Remark">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -262,8 +281,11 @@ if (isset($_POST['submit'])) {
 <script type="text/javascript">
     function verifedgaurantor(val)
     {
+	if(!val || val.length === 0){
+		return;
+	}
         var Gaurantor2Id = $("#Gaurantor2Id").val();
-        var CustomerID = $("#CustomerID").val();
+        var CustomerID = $("#CustomerID").val();	
 
         if ((val == Gaurantor2Id) || (CustomerID == val)) {
             alert(" Gaurantor1 and Gaurantor2 are same ,please enter another Gaurantor Id ");
@@ -295,6 +317,9 @@ if (isset($_POST['submit'])) {
 <script type="text/javascript">
     function verifedgaurantor2(val)
     {
+	    if(!val || val.length === 0){
+		    return;
+	    }
         var Gaurantor1Id = $("#Gaurantor1Id").val();
         var CustomerID = $("#CustomerID").val();
         var Gaurantor2Id = $("#Gaurantor2Id").val();

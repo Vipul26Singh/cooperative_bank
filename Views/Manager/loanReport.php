@@ -1,6 +1,6 @@
 <?php
 include '../superadmin-session.php';
-error_reporting(0);
+error_reporting(E_ALL);
 
 $search = mysql_fetch_array(mysql_query("SELECT * FROM `loan` WHERE LoanId='" . $_GET['id'] . "' ")) or die(mysql_error());
 $customersearch = mysql_fetch_array(mysql_query("SELECT * FROM `customer` WHERE CustomerID='" . $search['CustomerID'] . "' ")) or die(mysql_error());
@@ -10,6 +10,8 @@ INNER JOIN branch b
 ON b.BranchId = l.BranchId
 INNER JOIN customer c
 ON c.CustomerID = l.CustomerID where l.LoanId='" . $_GET['id'] . "'"));
+
+$selectloandetail = mysql_fetch_array(mysql_query("SELECT * FROM `loantype` WHERE LoanTypeid= '" . $search['LoanTypeid'] . "' " )) or die(mysql_error()); 
 
 
 $principalSum = '';
@@ -309,6 +311,7 @@ $searchcompanysetup = mysql_fetch_array(mysql_query("SELECT * FROM `companysetup
                                         $sr = 1;
                                         $count = $search['Durationinmonth'];
                                         $searchdata = $search['FirstInstallmentDate'];
+					$freq = $selectloandetail['Frequency'];
 
                                         $start = date('Y-m-d', strtotime($search['DisburseDate']));
                                         $end = date('Y-m-d', strtotime($search['FirstInstallmentDate']));
@@ -320,10 +323,18 @@ $searchcompanysetup = mysql_fetch_array(mysql_query("SELECT * FROM `companysetup
                                         function dateDiff($start, $end) {
                                             return round(abs(strtotime($start) - strtotime($end)) / 86400);
                                         }
+					$addFreq = null;
+					if($freq == 'MONTHLY'){
+						$addFreq = 'months';
+					}else if($freq == 'DAILY'){
+						$addFreq = 'day';
+					}else if($freq == 'WEEKLY'){
+						$addFreq = 'week';
+					}
 
                                         for ($i = 1; $i <= $count; $i++) {
                                             if ($i <= $count - 1) {
-                                                $emiDate = date('Y-m-d', strtotime($searchdata . "+$i months"));
+                                                $emiDate = date('Y-m-d', strtotime($searchdata . "+$i $addFreq"));
                                                 $data = dateDiff($end, $start);
                                                 $outprincipal = $outstanding;
                                                 $intrestamount = ((($outprincipal) * ($interest)) / 36500) * $data;
@@ -350,7 +361,7 @@ $searchcompanysetup = mysql_fetch_array(mysql_query("SELECT * FROM `companysetup
                                                 $emiSum += $search['installmentamount'];
                                                 $intrestamountSum += $intrestamount;
                                             } else {
-                                                $emiDate = date('Y-m-d', strtotime($searchdata . "+$i months"));
+                                                $emiDate = date('Y-m-d', strtotime($searchdata . "+$i $addFreq"));
                                                 $data = dateDiff($end, $start);
                                                 $outprincipal = $outstanding;
                                                 $intrestamount = (($outprincipal * $interest) / 36500) * $data;

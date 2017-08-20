@@ -8,6 +8,8 @@ $searchloan = mysql_fetch_array(mysql_query("SELECT * FROM `loan` WHERE Customer
 
 $selectdata = mysql_fetch_array(mysql_query("SELECT * FROM `customer` WHERE CustomerID='" . $_POST['custid'] . "'  "));
 
+$selectloandetail = mysql_fetch_array(mysql_query("SELECT * FROM `loantype` WHERE LoanTypeid='" . $search['LoanTypeid'] . "'  ")); 
+
 
 if ($searchloan['CustomerID'] == $_POST['custid'] && $searchloan['CustomerOTP'] == $_POST['otp']) {
     echo 'This Customer is already present in the table';
@@ -84,16 +86,26 @@ if ($searchloan['CustomerID'] == $_POST['custid'] && $searchloan['CustomerOTP'] 
 
                     </div>           
                 </div>
-                <div class="col-md-6">             
-                    <div class="form-group">
+		<div class="col-md-6">
+			<div class="form-group">
+				<label>Frequency</label>
+				<input type="text" class="form-control" readonly="" value="<?php echo $selectloandetail['Frequency']; ?>">
+			</div>
+			<div class="form-group">
+				<label> Rate of Interest </label>
+				<input type="text" class="form-control" readonly="" value="<?php echo $selectloandetail['InterestRate']; ?>">
+			</div>
+		</div>
+
+				
+                    <div class="col-md-6 form-group">
                         <label>Approved Amount</label>
                         <input type="text" class="form-control" readonly="" value="<?php echo $search['ApproveAmount']; ?>"  >
                     </div>  
-                    <div class="form-group">
+                    <div class="col-md-6 form-group">
                         <label>Approver Remark </label>
                         <input type="text" class="form-control" readonly="" value="<?php echo $search['ApproverRemark'] ?>" name=""  >
                     </div>
-                </div>
             </div> 
 
         </div>

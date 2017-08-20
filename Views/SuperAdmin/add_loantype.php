@@ -8,10 +8,11 @@ if (isset($_POST['submit'])) {
     $dim = $_POST['dim'];
 
     $status = $_POST['status'];
+    $frequency = $_POST['frequency'];
 
 
-    $sql = mysql_query("INSERT INTO `loantype`(`Type`, `Description`,`InterestRate`, `Durationinmonth`,  `Active`, `CreatedBy`, `CreatedDate` ) VALUES "
-            . "('" . $gname . "', '" . $descriptn . "','" . $irate . "', '" . $dim . "',  '" . $status . "', '" . $_SESSION['userid'] . "', CURDATE())");
+    $sql = mysql_query("INSERT INTO `loantype`(`Type`, `Description`,`InterestRate`, `Durationinmonth`,  `Active`, `Frequency`, `CreatedBy`, `CreatedDate` ) VALUES "
+            . "('" . $gname . "', '" . $descriptn . "','" . $irate . "', '" . $dim . "',  '" . $status . "', '" . $frequency . "', '" . $_SESSION['userid'] . "', CURDATE())");
 
     if ($sql) {
         header("location: loantype_list.php");
@@ -68,7 +69,7 @@ if (isset($_POST['submit'])) {
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label>Duration In Month</label>
+                                        <label>Duration</label>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -94,6 +95,23 @@ if (isset($_POST['submit'])) {
                                         </select>
                                     </div>
                                 </div>
+
+				<div class="col-md-2">
+					<div class="form-group">
+						<label>Installment Frequency</label>
+					</div>
+				</div>
+
+				<div class="col-md-4">
+					<div class="form-group">
+						<select class="form-control" name="frequency" style="width: 100%;" required="">
+							<option value=''>--Select--</option>
+							<option  value="DAILY">DAILY</option>
+							<option  value="WEEKLY">WEEKLY</option>
+							<option  value="MONTHLY">MONTHLY</option>
+						</select>
+					</div>
+				</div>
                             </div>
                             <div class="box-footer text-center">
                                 <input type="submit"  name="submit" value="Add" class="btn btn-primary">

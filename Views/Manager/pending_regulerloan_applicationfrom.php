@@ -145,33 +145,34 @@ $selectdata = mysql_fetch_array(mysql_query("SELECT * from loanapplication la
                             </div>
 
                             <div class="box-body">               
-                                <div class="col-md-6">
-                                    <div class="form-group">
+                                    <div class="col-md-6 form-group">
                                         <label>Apply Loan Amount</label>
                                         <input type="text" class="form-control" name="AppliedAmount"   readonly="" value="<?php echo $selectdata['AppliedAmount']; ?>">
 
                                     </div>
-                                    <div class="form-group">
+                                    <div class="col-md-6 form-group">
                                         <label>Apply Loan Date</label>
                                         <input type="date" class="form-control" readonly="true" value="<?php echo $selectdata['ApplyLoanDate']; ?>"  >
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Duration In Month</label>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Frequency</label>
+						<input type="text" class="form-control" readonly="true" value="<?php echo $selectdata['Frequency']; ?>" >
+					</div>
+				</div>
+                                    <div class="col-md-6 form-group">
+                                        <label>Duration</label>
                                         <input type="text" class="form-control" readonly="true" value="<?php echo $selectdata['ForDurationinMonth']; ?>" >
                                     </div>
-                                    <div class="form-group">
+                                    <div class="col-md-6 form-group">
                                         <label>Remark</label>
                                         <input type="text" class="form-control" readonly="true" value="<?php echo $selectdata['Remark']; ?>">
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
+                                
+                                    <div class="col-md-6 form-group">
                                         <label>Gaurantor1 ID</label>
                                         <input type="text" name="Gaurantor1Id" id="Gaurantor1Id" class="form-control" readonly="true" value="<?php echo $selectdata['Gaurantor1Id']; ?>">
                                     </div>
-                                </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Gaurantor2 ID</label>
@@ -232,7 +233,7 @@ $sqlgoldloan = mysql_query("SELECT * from   loantype  ");
 while ($goldloan = mysql_fetch_array($sqlgoldloan)) {
     ?>
 
-                                                <option value="<?php echo $goldloan['LoanTypeid']; ?>"><?php echo 'Rate Interest =' . $goldloan['InterestRate'] . '%' . '&nbsp' . 'Duration=' . $goldloan['Durationinmonth'] . 'Month'; ?></option>
+                                                <option value="<?php echo $goldloan['LoanTypeid']; ?>"><?php echo 'Rate Interest =' . $goldloan['InterestRate'] . '%' . '&nbsp' . 'Duration=' . $goldloan['Durationinmonth'] . ' '. $goldloan['Frequency']; ?></option>
                                             <?php } ?>
 
                                         </select>

@@ -41,7 +41,7 @@ if ($sqlbranch > 1) {
     </div>
     <div class="col-md-4">  
         <div class="form-group">
-            <input type="text" class="form-control" value=<?php echo $sqlbranch['EmailID'] ?> readonly="true" >
+            <input type="text" class="form-control" value="<?php echo $sqlbranch['EmailID'] ?>" readonly="true" >
         </div>				   
     </div>
     <div class="col-md-2"> 

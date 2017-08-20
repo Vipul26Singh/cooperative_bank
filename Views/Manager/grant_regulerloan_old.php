@@ -13,13 +13,22 @@ if (isset($_POST['submit'])) {
         $loan_no = $l_no + 1;
     }
 
-    $selectdata = mysql_fetch_array(mysql_query("SELECT la.*, loantype.InterestRate, loantype.Durationinmonth, loantype.NoofInstallments,la.Gaurantor1Id,la.Gaurantor2Id FROM loanapplication la INNER JOIN loantype ON loantype.LoanTypeid =loantype.LoanTypeid WHERE la.ApplyLoanID='" . $_GET['id'] . "' "));
+    $selectdata = mysql_fetch_array(mysql_query("SELECT la.*, loantype.InterestRate, loantype.Frequency, loantype.Durationinmonth, loantype.NoofInstallments,la.Gaurantor1Id,la.Gaurantor2Id FROM loanapplication la INNER JOIN loantype ON la.LoanTypeid =loantype.LoanTypeid WHERE la.ApplyLoanID='" . $_GET['id'] . "' "));
 
     if ($_POST['Status'] == 'active') {
         $p = $selectdata['ApproveAmount'];
         $rate = $selectdata['InterestRate'];
         $n = $selectdata['Durationinmonth'];
-        $r = $rate / 1200;
+	$freq = $selectdata['Frequency'];
+
+	if($freq == 'MONTHLY'){
+        	$r = $rate / 1200;
+	}else if($freq == 'WEEKLY'){
+		$r = ($rate * 7) / 36500;
+	}else if($freq == 'DAILY'){
+		$r = $rate / 36500;
+	}
+
         $formula = ($p * $r * (pow(1 + $r, $n))) / ((pow(1 + $r, $n)) - 1);
         $installment_amount = round($formula, 2);
 
@@ -177,7 +186,7 @@ if (isset($_POST['submit'])) {
                                 <div class="form-group">
                                     <label>First Installment Date</label>
                                     <input type="text" name="firstdate" id="fid" class="form-control txtenddate" >
-                                    <div id="firstdateerror" style="color:red; display: none;height: 5px;" >Please select First Installment Date<</div>
+                                    <div id="firstdateerror" style="color:red; display: none;height: 5px;" >Please select First Installment Date</div>
                                 </div>
                             </div>
                             <div class="col-md-6">

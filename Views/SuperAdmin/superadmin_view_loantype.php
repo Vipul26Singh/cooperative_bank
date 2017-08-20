@@ -85,6 +85,18 @@ error_reporting(0);
                                                 <input type="text" name="" value="<?php echo $a; ?>" class="form-control" readonly="">
                                             </div>
                                         </div>
+
+					<div class="col-md-2">
+						<div class="form-group">
+							<label>Frequency</label>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<input type="text" name="" value="<?php echo $row['Frequency']; ?>" class="form-control" readonly="">
+						</div>
+					</div>
+
                                     </div>
                                     <div class="box-footer text-center">
                                         <input type="submit" name="submit1" class="btn btn-primary" value="Edit">
